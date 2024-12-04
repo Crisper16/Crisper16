@@ -1,0 +1,372 @@
+/*
+Author:Lihawu Tech;
+License:MIT License
+*/
+/* Custom Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes arrowDown{
+        from{top: 0%;opacity: 0;}
+        to{top: 10%;opacity: 1;}
+
+}
+.fade-in-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 1.5s ease-out, transform 1.5s ease-out;
+}
+
+.fade-in-on-scroll.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+/*
+Author:Lihawu Tech;
+License:MIT License
+*/
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+/*
+Author:Lihawu Tech;
+License:MIT License
+*/
+
+@keyframes slideInLeft {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes typing {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100%;
+    }
+}
+
+@keyframes blinkCaret {
+    from, to {
+        border-color: transparent;
+    }
+    50% {
+        border-color: #fff;
+    }
+}
+/*
+Author:Lihawu Tech;
+License:MIT License
+*/
+
+@keyframes unveil {
+    0% {
+        transform: scale(1.2);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 0;
+    }
+}
+
+@keyframes animateWaves {
+    0% {
+      background-position-x: 0;
+    }
+    100% {
+      background-position-x: 100%;
+    }
+  }
+
+  [data-aos=fade-up] {
+    transform: translateY(100px)
+}
+
+@keyframes zoomIn {
+    from {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+/*
+Author:Lihawu Tech;
+License:MIT License
+*/
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-30px);
+    }
+    60% {
+        transform: translateY(-15px);
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+/*
+Author:Lihawu Tech;
+License:MIT License
+*/
+
+
+@keyframes flip {
+    from {
+        transform: rotateY(0deg);
+    }
+    to {
+        transform: rotateY(180deg);
+    }
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-5px);
+    }
+    50% {
+        transform: translateX(5px);
+    }
+    75% {
+        transform: translateX(-5px);
+    }
+}
+/*
+Author:Lihawu Tech;
+License:MIT License
+*/
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.rotate {
+    animation: rotate 2s linear infinite;
+    animation-timeline: view();
+    animation-range: entry 40% cover 40%;
+}
+
+/*
+Author:Lihawu Tech;
+License:MIT License
+*/
+
+.pulse {
+    animation: pulse 1s ease-in-out infinite;
+    animation-timeline: view();
+    animation-range: entry 40% cover 40%;
+}
+
+
+.shake {
+    animation: shake 1.5s infinite;
+
+}
+
+.slide-down {
+    animation: slideDown 0.5s ease-in-out both;
+    animation-timeline: view();
+    animation-range: entry 40% cover 40%;
+}
+
+
+.flip {
+    animation: flip 1s ease-in-out both;
+    animation-timeline: view();
+    animation-range: entry 40% cover 40%;
+}
+
+
+.spin {
+    animation: spin 2s linear infinite;
+    animation-timeline: view();
+    animation-range: entry 40% cover 40%;
+}
+
+  .waves{animation: animateWaves 1s infinite ;}
+.arrow{animation: arrowDown 1s infinite;}
+
+/* Animation Classes */
+.fade-in-on-scroll {
+    animation: fadeIn 1.5s ease-in-out both;
+    animation-timeline: view();
+    animation-range: entry 40% cover 40%;
+}
+/*
+Author:Lihawu Tech;
+License:MIT License
+*/
+
+.slide-in-right {
+    animation: slideInRight 1s ease-in-out both;
+    animation-timeline: view();
+    animation-range: entry 40% cover 40%;
+}
+
+.slide-in-left {
+    animation: slideInLeft 1s ease-in-out both;
+    animation-timeline: view();
+    animation-range: entry 40% cover 40%;
+}
+
+.contact-area .slide-in-left {
+    animation: slideInLeft 1.5s ease-in-out;
+    animation-timeline: view();
+    animation-range: entry 40% cover 40%;
+    
+}
+
+#adminPopup .slide-in-left {
+    animation: slideInLeft 1s ease-in-out both;
+    
+}
+
+form .slide-in-left {
+    animation: slideInLeft 1s ease-in-out both;
+    
+}
+ 
+form .slide-in-right {
+    animation: slideInRight 1s ease-in-out both;
+   
+}
+
+nav .slide-in-left {
+    animation: slideInLeft 1s ease-in-out both;
+    
+}
+ 
+
+
+#adminPopup .slide-in-right{ animation: slideInRight 1s ease-in-out both;}
+.fade-in{ animation: fadeIn 1s ease-in-out both;
+    animation-timeline: view();
+    animation-range: entry 40% cover 40%;
+
+}
+
+.zoom-in {
+    animation: zoomIn 0.5s ease-in-out both;
+    animation-timeline: view();
+    animation-range: entry 40% cover 40%;
+}
+
+#adminPopup .zoom-in {
+    animation: zoomIn 0.5s ease-in-out both;
+  
+}
+
+/*
+Author:Lihawu Tech;
+License:MIT License
+*/
+
+
+.bounce {
+    animation: bounce 0.4s ease infinite;
+}
+
+
+.fade-out {
+    animation: fadeOut 1s ease-in-out both;
+}
+#adminPopup .fade-in-on-scroll {
+    animation: fadeIn 1.5s ease-in-out both;
+    
+}
+
+#adminPopup .fade-in {
+    animation: fadeIn 1.5s ease-in-out both;
+    
+}/*
+Author:Lihawu Tech;
+License:MIT License
+*/
+#registration-popup .zoom-in {
+    animation: zoomIn 1s ease-in-out both;
+   
+}
+.featured-artist-content .fade-in{
+    animation: zoomIn 0.5s ease-in-out both;
+    animation-timeline: view();
+    animation-range: entry 30% cover 30%;
+ }

@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <!-- Title -->
+    <title>DJ ${Name}</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="img/core-img/favicon.ico">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="animation.css">
+<style>
+    
+    .registration-popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+}
+
+.registration-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgb(2, 0, 0,0.4);
+    padding: 20px;
+    backdrop-filter: blur(42px);
+    border-radius: 5px;
+    border: solid 2px black;
+    text-align: center;
+    transition: all 0.5s ease-in-out;
+}
+.registration-content:hover{
+    background-color:  rgb(2, 0, 0,0.7);
+}
+.registration-content h3 {
+    margin-bottom: 20px;
+}
+
+.registration-content input,
+.registration-content button {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.registration-content button {
+    background-color: rgb(244, 218, 117);;
+    color: white;
+    cursor: pointer;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+}
+/* Container for the scrollable playlist */
+.albums-scroll-container {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    gap: 20px;
+    padding: 20px 0;
+}
+
+/* Styling for the single album */
+.single-album {
+    flex: 0 0 15%; /* Take up about 15% of the container width */
+    max-width: 180px; /* Maximum width for each album */
+}
+
+/* Scroll button styling */
+.scroll-btn {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+}
+
+.left-btn {
+    left: 0;
+}
+
+.right-btn {
+    right: 0;
+}
+
+/* Hide scroll buttons when not needed */
+.scroll-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Style for the play/pause button */
+.play-button {
+    background: none;
+    border: none;
+    color: #333;
+    font-size: 24px;
+    cursor: pointer;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    z-index: 10;
+    outline: none;
+}
+
+/* Change button color on hover */
+.play-button:hover {
+    color: #ff6600;
+}
+</style>
+</head>
+
+<body>
+
+    <!-- Header Area Start -->
+    <header class="header-area">
+        <!-- Navbar Area -->
+        <div class="oneMusic-main-menu">
+            <div class="classy-nav-container breakpoint-off">
+                <div class="container">
+                    <!-- Menu -->
+                    <nav class="classy-navbar justify-content-between" id="oneMusicNav">
+
+                        <!-- Nav brand -->
+                        <a href="index.html" class="nav-brand"><img src="img/core-img/logo.png" alt=""></a>
+
+                        <!-- Navbar Toggler -->
+                        <div class="classy-navbar-toggler">
+                            <span class="navbarToggler"><span></span><span></span><span></span></span>
+                        </div>
+
+                        <!-- Menu -->
+                        <div class="classy-menu">
+
+                            <!-- Close Button -->
+                            <div class="classycloseIcon">
+                                <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
+                            </div>
+
+                            <!-- Nav Start -->
+                            <div class="classynav">
+                                <ul>
+                                    <li><a href="#top">Home</a></li>
+                                            <li><a href="#about">About</a></li>
+                                            <li><a href="#PEvents">Events</a></li>
+                                            <li><a href="#gallery">New</a></li>
+                                            <li><a href="#contact">Contact</a></li>
+                                           
+                                </ul>
+
+                                <!-- Login/Register & Cart Button -->
+                                <div class="login-register-cart-button d-flex align-items-center">
+                                    <!-- Login/Register -->
+                                    <div class="login-register-btn mr-50">
+                                        <a href="#" onclick='showAdminPopup()'>Admin/Login</a>
+                                    </div>
+
+                                    <!-- Cart Button 
+                                    <div class="cart-btn">
+                                        <p><span class="icon-shopping-cart"></span> <span class="quantity">1</span></p>
+                                    </div>-->
+                                </div>
+                            </div>
+                            <!-- Nav End -->
+
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+  <!--######login form##### -->
+<div id="adminPopup" class="registration-popup">
+    <div class="registration-content" style="width: 350px;">
+        <h2 class="text-2xl font-bold mb-4 text-white slide-in-left">Login</h2>
+        <form id="login-form">
+            <div class="mb-4 zoom-in ">
+                <input type="email" id="login-email" name="email" placeholder="Email" class="w-full p-3 border-gray-100 rounded" required />
+            </div>
+            <div class="mb-4 fade-in-on-scroll">
+                <input type="password" id="login-password" name="password" placeholder="Password" class="w-full p-3 border-gray-100 rounded" required />
+            </div>
+            <div class="row"> 
+                <div class="col-lg-6">
+                    <button type="submit" class="bg-primary text-white rounded slide-in-right" title="submit">Sign In</button>
+                </div>
+                <div class="col-lg-6">
+                    <button type="button" onclick="hideAdminPopup()" title="close popup" class="bg-danger text-white rounded slide-in-left">Close</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    // Function to display the registration form popup
+    function showAdminPopup() {
+        document.getElementById("adminPopup").style.display = "block";
+    }
+
+    // Function to hide the registration form popup
+    function hideAdminPopup() {
+        document.getElementById("adminPopup").style.display = "none";
+    }
+</script>
+
+<script type="module">
+    // Import the necessary Firebase functions
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+    import { getFirestore, collection, getDocs, query, where, addDoc,Timestamp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyDA9_SmJ48yLbJvJULBn2GWYCq7GAYJRYU",
+        authDomain: "music-dj-331b7.firebaseapp.com",
+        projectId: "music-dj-331b7",
+        storageBucket: "music-dj-331b7.appspot.com",
+        messagingSenderId: "17659646784",
+        appId: "1:17659646784:web:1fa29a50abb6990b1060a5",
+        measurementId: "G-0TNBNB04VY"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // Function to handle login form submission
+    async function handleLogin(event) {
+        event.preventDefault();
+        const email = document.getElementById("login-email").value;
+        const password = document.getElementById("login-password").value;
+
+        try {
+            const adminQuery = query(collection(db, "Admin"), where("email", "==", email));
+            const querySnapshot = await getDocs(adminQuery);
+
+            if (!querySnapshot.empty) {
+                const adminDoc = querySnapshot.docs[0].data();
+                if (adminDoc.password === password) {
+                    
+                    window.location.href = "Admin/admin.html";
+                } else {
+                    alert("Incorrect password. Please try again.");
+                }
+            } else {
+                alert("Admin not found. Please check your email.");
+                // window.location.href = "Admin/admin.html"; // Commented out to prevent immediate redirection
+            }
+        } catch (error) {
+            console.error("Error logging in:", error);
+            alert("Error logging in: " + error.message);
+        }
+    }
+
+    async function loadPrevEvents() {
+    const eventsContainer = document.getElementById("events-container");
+    console.log("Loading previous events...");
+
+    try {
+        const eventsSnapshot = await getDocs(collection(db, "PrviousEvents"));
+        console.log("Events snapshot size:", eventsSnapshot.size);
+        eventsContainer.innerHTML = ""; // Clear existing content
+
+        if (eventsSnapshot.empty) {
+            // If no previous events are found, display placeholder cards
+            for (let i = 0; i < 6; i++) {
+                const placeholderItem = document.createElement("div");
+                placeholderItem.classList.add("col-12", "col-sm-6", "col-md-4", "col-lg-2", "single-album-area");
+                placeholderItem.innerHTML = `
+                    <div class="album-thumb">
+                        <img src="img/bg-img/th.jpeg" alt="Placeholder">
+                        <div class="album-info">
+                            <h5>Coming Soon</h5>
+                            <p>Stay tuned for upcoming events</p>
+                            <p class="event-date">TBD</p>
+                        </div>
+                    </div>
+                `;
+                eventsContainer.appendChild(placeholderItem);
+            }
+            return; // Exit if there are no events
+        }
+
+        eventsSnapshot.forEach((doc) => {
+            const eventData = doc.data();
+            console.log("Event data:", eventData);
+            const { place, date, description, imageUrl, eventUrl, category } = eventData;
+
+            let eventDate;
+
+            // Check if date is a Firestore Timestamp or a string
+            if (date instanceof Timestamp) {
+                eventDate = date.toDate();
+            } else if (typeof date === 'string') {
+                eventDate = new Date(date);
+            } else {
+                console.error("Unexpected date format:", date);
+                return; // Exit if date format is not handled
+            }
+
+            // Format date
+            const formattedDate = formatDate(eventDate);
+
+            // Create an event item
+            const eventItem = document.createElement("div");
+            eventItem.classList.add("col-12", "col-md-6", "col-lg-4", "mb-30", "single-event-item", category);
+            eventItem.innerHTML = `
+                <div class="single-event-area">
+                    <div class="event-thumbnail">
+                        <img src="${imageUrl || 'img/bg-img/default.jpg'}" alt="">
+                    </div>
+                    <div class="event-text">
+                        <h4>${place}</h4>
+                        <div class="event-meta-data">
+                            <a href="#" class="event-place">${place}</a>
+                            <a href="#" class="event-date">${formattedDate}</a>
+                        </div>
+                        <a href="${eventUrl}" class="btn see-more-btn" target="_blank">See Event</a>
+                    </div>
+                </div>
+            `;
+            eventsContainer.appendChild(eventItem);
+        });
+    } catch (error) {
+        console.error("Error loading events:", error);
+        alert("Error loading events: " + error.message);
+    }
+}
+
+async function loadComingEvents() {
+    const eventsContainer = document.querySelector("#gallery .row:nth-of-type(3)");
+    console.log("Loading coming events...");
+
+    try {
+        const eventsSnapshot = await getDocs(collection(db, "CommingEvents"));
+        console.log("Events snapshot size:", eventsSnapshot.size);
+        eventsContainer.innerHTML = ""; // Clear existing content
+
+        const dates = new Set();
+
+        if (eventsSnapshot.empty) {
+            for (let i = 0; i < 6; i++) {
+                const placeholderItem = document.createElement("div");
+                placeholderItem.classList.add("col-12", "col-sm-6", "col-md-4", "col-lg-2", "single-album-area");
+                placeholderItem.innerHTML = `
+                    <div class="album-thumb">
+                        <img src="img/bg-img/th.jpeg" alt="Placeholder">
+                        <div class="album-info">
+                            <h5>Coming Soon</h5>
+                            <p>Stay tuned for upcoming events</p>
+                            <p class="event-date">TBD</p>
+                        </div>
+                    </div>
+                `;
+                eventsContainer.appendChild(placeholderItem);
+            }
+            return;
+        }
+
+        eventsSnapshot.forEach((doc) => {
+            const eventData = doc.data();
+            console.log("Event data:", eventData);
+            const { place, date, description, imageUrl, eventUrl } = eventData;
+
+            let eventDate;
+
+            if (date instanceof Timestamp) {
+                eventDate = date.toDate();
+            } else if (typeof date === 'string') {
+                eventDate = new Date(date);
+            } else {
+                console.error("Unexpected date format:", date);
+                return;
+            }
+
+            const formattedDate = formatDate(eventDate);
+            dates.add(formattedDate);
+
+            const eventItem = document.createElement("div");
+            eventItem.classList.add("col-12", "col-sm-6", "col-md-4", "col-lg-2", "single-album-area");
+            eventItem.innerHTML = `
+                <div class="album-thumb">
+                    <img src="${imageUrl || 'img/bg-img/default.jpg'}" alt="">
+                    <div class="album-info">
+                        <a href="${eventUrl || '#'}">
+                            <h5>${place}</h5>
+                        </a>
+                        <p>${description || ''}</p>
+                        <p class="event-date">${formattedDate}</p>
+                    </div>
+                </div>
+            `;
+            eventsContainer.appendChild(eventItem);
+        });
+
+        const dateFilterDiv = document.querySelector(".date-filter");
+        dates.forEach(date => {
+            const button = document.createElement("button");
+            button.classList.add("filter-btn", "btn", "btn-secondary", "mb-5", "ml-2");
+            button.dataset.date = date;
+            button.textContent = date;
+
+            button.addEventListener("click", () => filterEventsByDate(date));
+
+            dateFilterDiv.appendChild(button);
+        });
+
+    } catch (error) {
+        console.error("Error loading events:", error);
+        alert("Error loading events: " + error.message);
+    }
+} 
+
+function filterEventsByDate(selectedDate) {
+        const eventItems = document.querySelectorAll("#gallery .single-album-area");
+        eventItems.forEach(item => {
+            const eventDate = item.querySelector('.event-date').textContent;
+            if (!selectedDate || eventDate === selectedDate) {
+                item.style.display = 'block';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    }
+
+    // Event listener for date filter buttons
+    document.querySelector(".date-filter").addEventListener("click", (event) => {
+        if (event.target.classList.contains("filter-btn")) {
+            const selectedDate = event.target.dataset.date;
+            filterEventsByDate(selectedDate);
+        }
+    });
+
+    // Function to load playlists from Firestore
+    async function loadPlaylists() {
+        const playlistContainer = document.getElementById("playlist-container");
+        console.log("Loading playlists...");
+
+        try {
+            const playlistsSnapshot = await getDocs(collection(db, "playList"));
+            console.log("Playlists snapshot size:", playlistsSnapshot.size);
+            playlistContainer.innerHTML = "";
+
+            if (playlistsSnapshot.empty) {
+                for (let i = 0; i < 12; i++) {
+                    const placeholderItem = document.createElement("div");
+                    placeholderItem.classList.add("single-album");
+                    placeholderItem.innerHTML = `
+                        <img src="img/bg-img/music_placeholder.png" alt="Placeholder">
+                        <div class="album-info">
+                            <a href="#">
+                                <h5>Coming Soon</h5>
+                            </a>
+                            <p>Stay tuned for new playlists!</p>
+                        </div>
+                    `;
+                    playlistContainer.appendChild(placeholderItem);
+                }
+                return;
+            }
+
+            playlistsSnapshot.forEach((doc) => {
+                const playlistData = doc.data();
+                console.log("Playlist data:", playlistData);
+                const { title, artist, imageUrl, description, playlistUrl } = playlistData;
+
+                const playlistItem = document.createElement("div");
+                playlistItem.classList.add("single-album");
+                playlistItem.innerHTML = `
+                    <img src="${imageUrl || 'img/bg-img/default.jpg'}" alt="${title}">
+                    <div class="album-info">
+                        <h5>${title}</h5>
+                        <p>${artist || 'Unknown Artist'}</p>
+                        <p>${description || ''}</p>
+                        <a href="${playlistUrl || '#'}" target="_blank">
+                            <button class="play-button" onclick="togglePlayPause(this, '${playlistUrl}')">
+                                <i class="fa fa-play"></i>
+                            </button>
+                        </a>
+                    </div>
+                `;
+                playlistContainer.appendChild(playlistItem);
+            });
+        } catch (error) {
+            console.error("Error loading playlists:", error);
+            alert("Error loading playlists: " + error.message);
+        }
+    }
+
+    // Function to toggle play/pause state
+    function togglePlayPause(button, playlistUrl) {
+        const icon = button.querySelector('i');
+        if (icon.classList.contains('fa-play')) {
+            icon.classList.remove('fa-play');
+            icon.classList.add('fa-pause');
+            playAudio(playlistUrl);
+        } else {
+            icon.classList.remove('fa-pause');
+            icon.classList.add('fa-play');
+            pauseAudio();
+        }
+    }
+
+    let currentAudio = null;
+
+    // Function to play audio
+    function playAudio(url) {
+        if (currentAudio) {
+            currentAudio.pause();
+        }
+        currentAudio = new Audio(url);
+        currentAudio.play();
+    }
+
+    // Function to pause audio
+    function pauseAudio() {
+        if (currentAudio) {
+            currentAudio.pause();
+        }
+    }
+
+    // Function to handle the contact form submission
+    async function handleContactFormSubmission(event) {
+        event.preventDefault();
+
+        const name = document.getElementById("name").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const message = document.getElementById("message").value.trim();
+        const option = document.getElementById("options").value;
+
+        if (!name || !email || !message || !option) {
+            alert("Please fill out all fields.");
+            return;
+        }
+
+        try {
+            let collectionName;
+            let messageData = {
+                name: name,
+                email: email,
+                message: message,
+                timestamp: new Date()
+            };
+
+            if (option === "booking") {
+                collectionName = "Bookings";
+            } else if (option === "complaint") {
+                collectionName = "Messages";
+                messageData.type = "complaint";
+            } else if (option === "compliment") {
+                collectionName = "Messages";
+                messageData.type = "compliment";
+            } else {
+                alert("Please select a valid option.");
+                return;
+            }
+
+            const docRef = await addDoc(collection(db, collectionName), messageData);
+            console.log("Document written with ID: ", docRef.id);
+            alert("Your message has been sent successfully.");
+
+            document.getElementById("name").value = "";
+            document.getElementById("email").value = "";
+            document.getElementById("message").value = "";
+            document.getElementById("options").value = "";
+
+        } catch (error) {
+            console.error("Error sending message: ", error);
+            alert("Error sending message: " + error.message);
+        }
+    }
+
+    // Add event listener to the contact form submission
+    document.querySelector(".contact-form-area form").addEventListener("submit", handleContactFormSubmission);
+
+    // Function to load testimonials from compliments in the Messages collection
+    async function loadTestimonials() {
+        const testimonialsContainer = document.querySelector(".testimonials-slide");
+        testimonialsContainer.innerHTML = "";
+
+        try {
+            const complimentsQuery = query(collection(db, "Messages"), where("type", "==", "compliment"));
+            const querySnapshot = await getDocs(complimentsQuery);
+
+            if (querySnapshot.empty) {
+                testimonialsContainer.innerHTML = "<div class='single-slide'><p>No testimonials available at the moment.</p></div>";
+                return;
+            }
+
+            querySnapshot.forEach((doc) => {
+                const complimentData = doc.data();
+                const { name, message } = complimentData;
+
+                const testimonialSlide = document.createElement("div");
+                testimonialSlide.classList.add("single-slide");
+                testimonialSlide.innerHTML = `
+                    <p>${message}</p>
+                    <div class="testimonial-info d-flex align-items-center">
+                        <div class="testimonial-thumb">
+                            <img src="img/bg-img/download.jpeg" alt="">
+                        </div>
+                        <p>${name}, Customer</p>
+                    </div>
+                `;
+
+                testimonialsContainer.appendChild(testimonialSlide);
+            });
+
+            if ($('.testimonials-slide').owlCarousel) {
+                $('.testimonials-slide').owlCarousel('destroy');
+            }
+            $('.testimonials-slide').owlCarousel({
+                items: 1,
+                loop: true,
+                autoplay: true,
+                smartSpeed: 1500,
+                autoplayTimeout: 7000,
+                nav: false,
+                dots: true
+            });
+
+        } catch (error) {
+            console.error("Error loading testimonials: ", error);
+            alert("Error loading testimonials: " + error.message);
+        }
+    }
+
+    function formatDate(date) {
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+    const day = String(date.getDate()).padStart(2, '0');
+    const year = String(date.getFullYear()).slice(-2); // Get last two digits of the year
+
+    return `${day}/${month}/${year}`;
+}
+
+
+    // Wait for the DOM to load
+    document.addEventListener("DOMContentLoaded", () => {
+        const loginForm = document.getElementById("login-form");
+        const eventsContainer = document.getElementById("events-container");
+
+        if (loginForm) {
+            loginForm.addEventListener("submit", handleLogin);
+        } else {
+            console.error("login-form not found!");
+        }
+
+        if (eventsContainer) {
+            loadPrevEvents();
+        } else {
+            console.error("events-container not found!");
+        }
+        loadComingEvents();
+        loadPlaylists();
+        loadTestimonials();
+    });
+</script>
+
+
+<!--######login form end##### -->
+   <!-- Header Area End -->
+
+    <!-- Hero Area Start -->
+    <section class="hero-area" id="top">
+        <div class="hero-slides owl-carousel">
+            <!-- Single Hero Slide -->
+            <div class="single-hero-slide d-flex align-items-center justify-content-center">
+                <!-- Slide Img -->
+                <div class="slide-img bg-img" style="background-image: url(img/me.jpg);"></div>
+                <!-- Slide Content -->
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="hero-slides-content text-center">
+                                <h6 data-animation="fadeInUp" data-delay="100ms">${Dj Name} </h6>
+                                <h2 data-animation="fadeInUp" data-delay="300ms"> Your #1 Musical Dj<span>Your #1 Musical Dj</span></h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Single Hero Slide -->
+            <div class="single-hero-slide d-flex align-items-center justify-content-center">
+                <!-- Slide Img -->
+                <div class="slide-img bg-img" style="background-image: url(img/me2.jpg);"></div>
+                <!-- Slide Content -->
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="hero-slides-content text-center">
+                                <h6 data-animation="fadeInUp" data-delay="100ms">Welcome</h6>
+                                <h2 data-animation="fadeInUp" data-delay="300ms">Lets Start The Fun<span>Lets Start The Fun</span></h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="mb-100" id="about">
+        <div >
+
+        </div>
+    </div>
+    <div class="mb-100" >
+        <div >
+
+        </div>
+    </div>
+    
+    <!-- Hero Area End -->
+    <div class="container mt-5 mb-5" >
+
+        <h1 class="justify-content-center mt-5 fade-in mt-100 " style="justify-content: center; margin-left: 40%;margin-top: 45%;">About</h1>
+        <div class="row align-items-end mt-100 mb-100 ">
+            <div class="col-12 col-md-5 col-lg-4  ">
+                <div class="featured-artist-thumb slide-in-left">
+                    <img src="img/me3.jpg" alt="">
+                </div>
+            </div>
+            <div class="col-12 col-md-7 col-lg-8">
+                <div class="featured-artist-content">
+                    <!-- Section Heading -->
+                    <div class="section-heading dark text-left mb-30">
+                        <p>See what’s new</p>
+                        <h2>Buy What’s New</h2>
+                    </div>
+                    <p class="dark text-black t fade-in" style="color: black;">Nam tristique ex vel magna tincidunt, ut porta nisl finibus. Vivamus eu dolor eu quam varius rutrum. Fusce nec justo id sem aliquam fringilla nec non lacus. Suspendisse eget lobortis nisi, ac cursus odio. Vivamus nibh velit, rutrum at ipsum ac, dignissim iaculis ante. Donec in velit non elit pulvinar pellentesque et non eros.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row align-items-end mt-100 mb-100 ">
+            
+            <div class="col-12 col-md-7 col-lg-8">
+                <div class="featured-artist-content">
+                    <!-- Section Heading -->
+                    <div class="section-heading dark text-left mb-30">
+                        <p>See what’s new</p>
+                        <h2>Buy What’s New</h2>
+                    </div>
+                    <p class="dark text-black t fade-in " style="color: black;">Nam tristique ex vel magna tincidunt, ut porta nisl finibus. Vivamus eu dolor eu quam varius rutrum. Fusce nec justo id sem aliquam fringilla nec non lacus. Suspendisse eget lobortis nisi, ac cursus odio. Vivamus nibh velit, rutrum at ipsum ac, dignissim iaculis ante. Donec in velit non elit pulvinar pellentesque et non eros.</p>
+                </div>
+            </div>
+            <div class="col-12 col-md-5 col-lg-4  ">
+                <div class="featured-artist-thumb slide-in-left">
+                    <img src="img/img8.jpg" alt="">
+                </div>
+            </div>
+        </div>
+    </div>  
+ <!-- Breadcumb Area Start -->
+
+<!-- Breadcumb Area End -->
+
+<!-- Events Area Start -->
+<!-- Events Area Start -->
+<section class="events-area section-padding-100 mb-100" id="PEvents">
+    <div class="row">
+        <div class="col-12 mb-5">
+            <div class="section-heading zoom-in style-2">
+                <p>See what’s new</p>
+                <h2>Previous Events</h2>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row" id="events-container">
+            <!-- Dynamic Event Items will be injected here -->
+        </div>
+    </div  >
+</section>
+
+<!-- Events Area End -->
+
+<!-- Newsletter & Testimonials Area Start -->
+<section class="newsletter-testimonials-area fade-in" >
+    <div class="container">
+        <div class="row">
+
+    
+
+            <!-- Testimonials Area -->
+            <div class="col-12 col-lg-8">
+                <div class="testimonials-area mb-100 " style="border: dotted 2px black;">
+                    <div class="section-heading dark  text-left mb-50" >
+                        <p>See what Fans Say</p>
+                        <h2>Feedback</h2>
+                    </div>
+                    <!-- Testimonial Slide -->
+                    <div class="testimonials-slide owl-carousel dark text-dark">
+                        <!-- Single Slide -->
+                    
+                      
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+    <!-- Latest Albums Area Start -->
+    <!-- Breadcumb Area End -->
+
+    <!-- Album Catagory Area Start -->
+<!-- Album Catagory Area End -->
+
+<section class="oneMusic-buy-now-area has-fluid bg-gray section-padding-100" id="gallery">
+    <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="section-heading zoom-in style-2">
+                        <p>See what’s new</p>
+                        <h2>Coming Events</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Date Filter Buttons -->
+        <div class="row">
+            <div class="col-12">
+                <div class="date-filter">
+                    <button class="filter-btn btn btn-primary mb-5" data-date="">All Events</button>
+                    <!-- Date buttons will be dynamically populated -->
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Event items will be dynamically inserted here -->
+        </div>
+        
+        <div class="row">
+            <div class="col-12">
+                <div class="load-more-btn text-center wow fadeInUp" data-wow-delay="300ms">
+                    <a href="#playlist" class="btn btn-outline-dark">My Paylist <i class="fa fa-angle-double-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="latest-albums-area section-padding-100" id="playlist">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="section-heading zoom-in style-2">
+                    <p>See what’s new</p>
+                    <h2>My Playlist</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-9">
+                <div class="albums-text text-center mb-70">
+                    <p>Discover the latest playlists from various artists. Listen to new releases and trending music collections.</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <!-- Scroll buttons -->
+                <button class="scroll-btn left-btn bg-transparent" onclick="scrollPlaylists(-1)"><i class="fa fa-angle-double-left text-dark text-xl " style="font-size:200%;"></i></button>
+                <div class="albums-scroll-container" id="playlist-container">
+                    <!-- Playlists will be loaded here dynamically -->
+                </div>
+                <button class="scroll-btn right-btn bg-transparent text-black" onclick="scrollPlaylists(1)"><i class="fa fa-angle-double-right text-dark text-xl ml-50" style="font-size:200%;"></i></button>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <!-- Buy Now Area End -->
+
+    <!-- Contact Area Start -->
+   
+        <div class="bradcumbContent zoom-in mt-100 mb-100" id="contact" style="margin-left: 45%;">
+            <p>See what’s new</p>
+            <h2>Contact</h2>
+        </div>
+   
+     <!-- Contact Area Start -->
+     <section class="contact-area  section-padding-100-0">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-12 col-lg-3 ">
+                    <div class="contact-content mb-100">
+                        <!-- Title -->
+                        <div class="contact-title mb-50">
+                            <h5>Contact Info</h5>
+                        </div>
+
+                        <!-- Single Contact Info -->
+                        <div class="single-contact-info d-flex align-items-center ">
+                            <div class="icon mr-30 zoom-in">
+                                <span class="icon-placeholder slide-in-left"></span>
+                            </div>
+                            <p>RSTP,Matsapha,Eswatini</p>
+                        </div>
+
+                        <!-- Single Contact Info -->
+                        <div class="single-contact-info d-flex align-items-center ">
+                            <div class="icon mr-30 zoom-in ">
+                                <span class="icon-smartphone slide-in-left"></span>
+                            </div>
+                            <p>+268 76818841</p>
+                        </div>
+
+                        <!-- Single Contact Info -->
+                        <div class="single-contact-info d-flex align-items-center ">
+                            <div class="icon mr-30 zoom-in">
+                                <span class="icon-mail slide-in-left "></span>
+                            </div>
+                            <p>crispermdluli@gmail.com</p>
+                        </div>
+
+                        <!-- Contact Social Info -->
+                        <div class="contact-social-info mt-50">
+                            <a href="#" data-toggle="tooltip" data-placement="top" title="Facebook"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+                            <a href="#" data-toggle="tooltip" data-placement="top" title="Twitter"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+                            <a href="#" data-toggle="tooltip" data-placement="top" title="Linkedin"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+                            <a href="#" data-toggle="tooltip" data-placement="top" title="Youtube"><i class="fa fa-youtube" aria-hidden="true"></i></a>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-12 col-lg-9">
+                    <!-- Google Maps -->
+                    <div class="map-area  mb-100">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3570.217763228283!2d31.3313411809112!3d-26.5131200172939!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1eef492368aecef1%3A0x87c9571185a2dc66!2sRSTP%20Innovation%20Park!5e0!3m2!1sen!2s!4v1730037100784!5m2!1sen!2s" allowfullscreen></iframe>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <!-- Contact Area End -->
+    <section class="contact-area section-padding-0-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="section-heading">
+                        <p>See what’s new</p>
+                        <h2>Get In Touch</h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <!-- Contact Form Area -->
+                    <div class="contact-form-area">
+                        <form action="#" method="post">
+                            <div class="row">
+                                <div class="col-md-6 col-lg-4">
+                                    <div class="form-group slide-in-left">
+                                        <input type="text" class="form-control" id="name" placeholder="Name">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-lg-4">
+                                    <div class="form-group zoom-in">
+                                        <input type="email" class="form-control" id="email" placeholder="E-mail">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group  ">
+                                        <select name="options" class="btn btn-outline-dark" id="options" required>
+                                            Choose
+                                            <option value="booking">Booking</option>
+                                            <option value="complaint">Complaint</option>
+                                            <option value="compliment">Compliment</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group ">
+                                        <textarea name="message" class="form-control" id="message" cols="30" rows="10" placeholder="Message"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-outline-dark mt-30" type="submit">Send <i class="fa fa-angle-double-right"></i></button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Area Start -->
+    <footer class="footer-area">
+        <div class="container">
+            <div class="row d-flex flex-wrap align-items-center">
+                <div class="col-12 col-md-12">
+                    <p class="text-white ml-50 text-center justify-content-center"> Copyright &copy;<script>document.write(new Date().getFullYear());</script> || Product oF <a href="https://lihawutech.pages.dev" target="_blank"><!--https://djsavage.netlify.app/-->
+                        <span class="disigner text-white font-light " style="font-size: 79%;text-decoration: underline;"> Lihawu Tech </span>
+                    </a></p>
+                </div>
+
+            </div>
+        </div>
+    </footer>
+    <!-- Footer Area Start -->
+
+    <!-- All Javascript Script -->
+    <!-- jQuery-2.2.4 js -->
+    <script src="js/jquery/jquery-2.2.4.min.js"></script>
+    <!-- Popper js -->
+    <script src="js/bootstrap/popper.min.js"></script>
+    <!-- Bootstrap js -->
+    <script src="js/bootstrap/bootstrap.min.js"></script>
+    <!-- All Plugins js -->
+    <script src="js/plugins/plugins.js"></script>
+    <!-- Active js -->
+    <script src="js/active.js"></script>
+</body>
+
+</html>
